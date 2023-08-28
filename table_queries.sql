@@ -2,23 +2,23 @@
 SET search_path TO dsps;
 
 -- Insert a student with Student number: 600; Name= ‘Peterson, J’; email= ‘PeteJ@myhome.com’
-INSERT INTO student VALUES
-    (600, 'Peterson, J', 'PeteJ@myhome.com');
+INSERT INTO student 
+VALUES (600, 'Peterson, J', 'PeteJ@myhome.com');
 
 -- Insert a exam with values:   Exam code : ‘VB03’; Exam title : ‘Visual Basic 3’; Exam location : ‘London’; 
 -- Exam date : 2022-06-03 Exam time : 09:00
-INSERT INTO exam VALUES 
- 	('VB03', 'Visual Basic 3', 'London', '2022-06-03', '09:00');
+INSERT INTO exam 
+VALUES ('VB03', 'Visual Basic 3', 'London', '2022-06-03', '09:00');
 
 -- Insert an entry with values:  Exam code : ‘VB03’ Exam title : Student number : ‘100’
 -- The reference number (eno) = the latest reference number + 1
 INSERT INTO entry(eno, excode, sno)
-    VALUES ((SELECT COALESCE(MAX(eno),0) FROM entry) + 1, 'VB03', 100);
+VALUES ((SELECT COALESCE(MAX(eno),0) FROM entry) + 1, 'VB03', 100);
 
 -- Update an entry with Entry number: ‘10’,  for ‘VB03’ and student number ‘100, 
-UPDATE entry SET
-    egrade = 60
-    WHERE eno = 10;
+UPDATE entry 
+SET egrade = 60
+WHERE eno = 10;
 
 -- Student Examination Timetables: Produce a table showing the examination timetable for a given student. 
 -- Produce timetable for student number: 100
@@ -41,11 +41,11 @@ CASE
 		THEN 'Not taken'
 	WHEN en.egrade < 50 
 		THEN 'Fail'
-    WHEN en.egrade >= 50
-        AND en.egrade < 70 THEN 'Pass'
+    WHEN en.egrade >= 50 AND en.egrade < 70 
+		THEN 'Pass'
     WHEN en.egrade >= 70 
 		THEN 'Distinction'
-       	END exam_grade
+END exam_grade
 FROM entry AS en, student AS s
 WHERE en.sno = s.sno
 ORDER BY exam_code, student_name;
