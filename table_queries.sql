@@ -71,16 +71,18 @@ SELECT * FROM numeric_grade WHERE membership_number = 100;
 -- Display membership status for student number: ‘100’
 CREATE or REPLACE FUNCTION membership_status(integer)
 RETURNS text AS $BODY$ 
-	BEGIN	
-	IF (SELECT COUNT(exam_numeric_grade) FROM numeric_grade WHERE membership_number = $1) >= 4
+BEGIN	
+	IF 
+		(SELECT COUNT(exam_numeric_grade) FROM numeric_grade WHERE membership_number = $1) >= 4
 		AND (SELECT AVG(exam_numeric_grade) FROM numeric_grade WHERE membership_number = $1) >= 50
 	THEN 
-	RETURN 'Accredited';
+		RETURN 'Accredited';
 	ELSE
-	RETURN 'Pending';
+		RETURN 'Pending';
 	END IF;
-	END; 
-	$BODY$ LANGUAGE plpgsql;
+END; 
+$BODY$ 
+LANGUAGE plpgsql;
 
 SELECT DISTINCT membership_number, membership_name, membership_status(100) 
 FROM numeric_grade 
