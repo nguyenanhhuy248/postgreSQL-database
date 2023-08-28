@@ -36,7 +36,7 @@ CREATE TABLE entry (
 		ON UPDATE RESTRICT, 
 	FOREIGN KEY (sno) REFERENCES student 
  		ON DELETE CASCADE
-    		ON UPDATE RESTRICT);
+    	ON UPDATE RESTRICT);
 
 -- Create cancel table:	
 CREATE TABLE cancel (
@@ -45,7 +45,7 @@ CREATE TABLE cancel (
     sno          INTEGER NOT NULL,
     cdate        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     cuser        VARCHAR(128) DEFAULT current_user,
-CONSTRAINT cancel_pk PRIMARY KEY (eno, cdate));
+	CONSTRAINT cancel_pk PRIMARY KEY (eno, cdate));
 CREATE INDEX idx_cancel ON cancel(eno);
 
 
@@ -53,9 +53,8 @@ CREATE INDEX idx_cancel ON cancel(eno);
 CREATE OR REPLACE FUNCTION update_cancel_table() 
 RETURNS trigger AS $BODY$ 
 BEGIN 
-INSERT INTO
-        cancel (eno,excode,sno)
-        VALUES (OLD.eno,OLD.excode,OLD.sno);
+INSERT INTO cancel (eno,excode,sno)
+VALUES (OLD.eno,OLD.excode,OLD.sno);
 
 RETURN OLD; 
 END; $BODY$ 
@@ -71,16 +70,13 @@ CREATE or REPLACE FUNCTION entry_insert_check()
 RETURNS trigger AS $BODY$
 BEGIN
 	IF 
-	(NEW.excode 
-	IN 
-	(SELECT DISTINCT excode FROM entry AS en WHERE en.sno = NEW.sno))
+		(NEW.excode IN (SELECT DISTINCT excode FROM entry AS en WHERE en.sno = NEW.sno))
 	THEN
- 	RAISE EXCEPTION 'A student can only enter a specific examination once in a year!'; 
+ 		RAISE EXCEPTION 'A student can only enter a specific examination once in a year!'; 
 	ELSEIF 
-	(SELECT exdate FROM exam AS ex WHERE ex.excode = NEW.excode)
-	IN 
-	(SELECT DISTINCT exdate FROM exam AS ex, entry AS en 
-	WHERE ex.excode = en.excode AND sno = NEW.sno)
+		(SELECT exdate FROM exam AS ex WHERE ex.excode = NEW.excode) IN 
+		(SELECT DISTINCT exdate FROM exam AS ex, entry AS en 
+		WHERE ex.excode = en.excode AND sno = NEW.sno)
 	THEN
     	RAISE EXCEPTION 'A student cannot take two examinations on the same day!'; 
 END IF;
