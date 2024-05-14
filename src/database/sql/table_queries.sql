@@ -1,9 +1,11 @@
 -- Set the search path to dsps schema
 SET search_path TO dsps;
 
--- Insert a student with Student number: 600; Name= ‘Peterson, J’; email= ‘PeteJ@myhome.com’
+-- Insert student information into student table
 INSERT INTO student 
-VALUES (600, 'Peterson, J', 'PeteJ@myhome.com');
+VALUES 
+(100, 'Kobbie, M', 'Kobbie.m@myhome.com'),
+(200, 'Marcus, R', 'marcus.r@gmail.com');
 
 -- Insert a exam with values:   Exam code : ‘VB03’; Exam title : ‘Visual Basic 3’; Exam location : ‘London’; 
 -- Exam date : 2022-06-03 Exam time : 09:00
