@@ -3,8 +3,6 @@ The Data Science Professionals Society (DSPS) is a professional organization ded
 
 After the examinations are conducted, DSPS's examiners assign grades to the submitted exams, and these results are made available on the society's website. If a student opts to withdraw from DSPS, all their exam entries are nullified. A dedicated database stores information regarding examinations, student members, and exam entries. This database is accessible via the Internet and by DSPS office personnel through available workstations.
 
-Data pertaining to examinations, along with queries related to them, originate from DSPS office workstations or active web pages. DSPS's IT team collectively labels these actions, which include adding, updating, deleting, and querying data, as tasks. These tasks are managed within a server computer housing the database. They are placed in an input queue and subsequently processed by an application program on the server. The outcomes of these task executions are then deposited in an output queue for distribution to workstations or web pages.
-
 DSPS's database contains 4 tables:
 
  - **exam** (excode, extitle, exlocation, exdate, extime) 
